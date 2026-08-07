@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>ZENON ARCHIVE: Comics | Sci-Fi Comic Universe by K.G.ZENON</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
 <style>
 body{
     background:#05060a;
@@ -12,7 +14,6 @@ body{
     margin:0;
     padding:30px;
 }
-
 .title{
     text-align:center;
     font-size:28px;
@@ -39,6 +40,24 @@ body{
     border-radius:12px;
     border:1px solid rgba(0,255,255,.3);
     text-align:center;
+}
+
+.cover{
+    width:100%;
+    aspect-ratio:2/3;
+    object-fit:cover;
+    background:#222;
+    border-radius:10px;
+    display:block;
+    margin-bottom:12px;
+}
+
+.chapter-title{
+    color:rgb(244, 208, 7);
+    font-family:'Orbitron', sans-serif;
+    font-size:18px;
+    font-weight:100;
+    margin-bottom:12px;
 }
 
 .chapter{
@@ -92,15 +111,25 @@ button{
 
 <!-- CHAPTER 1 -->
 <div class="card">
+
+    <div class="chapter-title">Before the Rise</div>
+
+    <img src="comiccover.webp" class="cover">
+
     <div class="chapter">Chapter 1</div>
+
 
     <button class="read" onclick="openComic('chapter1.html')">
         READ NOW
     </button>
+
 </div>
 
 <!-- CHAPTER 2 -->
 <div class="card">
+
+<div class="chapter-title">After Kiraxians Born</div>
+    <img src="comiccover.webp" class="cover">
     <div class="chapter">Chapter 2</div>
 
     <button id="buyBtn2" class="buy" onclick="buyChapter2()">
@@ -116,6 +145,8 @@ button{
 
 <!-- CHAPTER 3 -->
 <div class="card">
+    <div class="chapter-title">The Mysterious light</div>
+    <img src="comiccover.webp" class="cover">
     <div class="chapter">Chapter 3</div>
 
     <button class="locked">
