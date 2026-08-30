@@ -282,8 +282,6 @@ picture::after {
 }
 
 
-/* GOOGLE */
-
 .google {
 
     background: white;
@@ -351,6 +349,15 @@ picture img {
     filter: brightness(0.55) contrast(1.1) saturate(0.9);
 }
 
+
+/* HIDDEN BY DEFAULT */
+
+#passwordSetup {
+
+    display: none;
+
+}
+
 </style>
 
 </head>
@@ -394,45 +401,42 @@ const db = firebase.firestore();
 
 /*
 ========================================================
-AUTHENTICATION STATE
-========================================================
-
-Firebase keeps the user signed in automatically.
-
-Most importantly:
-
-Google login and Email/Password login must eventually
-belong to the SAME Firebase UID.
-
-Your purchases should be connected to:
-
-currentUser.uid
-
-NOT just the email address.
+AUTH STATE
 ========================================================
 */
-
 
 auth.onAuthStateChanged(function(user) {
 
     if (user) {
 
-        console.log("AUTHENTICATED USER");
+        console.log(
+            "AUTHENTICATED USER:"
+        );
 
-        console.log("Email:", user.email);
+        console.log(
+            "Email:",
+            user.email
+        );
 
-        console.log("UID:", user.uid);
+        console.log(
+            "UID:",
+            user.uid
+        );
 
-        console.log("Providers:",
-            user.providerData.map(function(provider) {
-                return provider.providerId;
-            })
+        console.log(
+            "Providers:",
+            user.providerData.map(
+                function(provider) {
+
+                    return provider.providerId;
+
+                }
+            )
         );
 
     }
 
 });
-
 
 </script>
 
@@ -467,8 +471,6 @@ ZENON ARCHIVE:COMICS
 
 </picture>
 
-<!-- LOGO -->
-
 <div class="logo-center">
 
 ```
@@ -480,12 +482,14 @@ ZENON ARCHIVE:COMICS
 
 </div>
 
-<!-- LOGIN BOX -->
-
 <div class="container">
 
+<!-- NORMAL LOGIN -->
+
+<div id="normalLogin">
+
 <input
-type="text"
+type="email"
 id="email"
 placeholder="User ID / Gmail"
 
@@ -536,46 +540,109 @@ CONTINUE WITH GOOGLE
 
 </div>
 
+<!-- PASSWORD SETUP FOR GOOGLE USERS -->
+
+<div id="passwordSetup">
+
+<div
+    style="
+    color:cyan;
+    font-family:monospace;
+    margin-bottom:10px;
+    "
+>
+
+```
+CREATE ACCESS KEY
+```
+
+</div>
+
+<input
+type="password"
+id="newPassword"
+placeholder="New Access Key"
+
+>
+
+<input
+type="password"
+id="confirmPassword"
+placeholder="Confirm Access Key"
+
+>
+
+<button
+class="btn signin"
+onclick="setPassword()"
+
+>
+
+```
+LINK PASSWORD
+```
+
+</button>
+
+</div>
+
+</div>
+
 <script>
 
 
 /*
 ========================================================
-NORMAL LOGIN
+NORMAL EMAIL/PASSWORD LOGIN
 ========================================================
 */
 
 function login() {
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
 
     const password =
-        document.getElementById("password").value;
+        document
+        .getElementById("password")
+        .value;
 
 
     if (!email || !password) {
 
-        alert("SYSTEM: Missing credentials");
+        alert(
+            "SYSTEM: Missing credentials"
+        );
 
         return;
 
     }
 
 
-    auth.signInWithEmailAndPassword(
+    auth
+    .signInWithEmailAndPassword(
         email,
         password
     )
 
     .then(function(userCredential) {
 
-        const user = userCredential.user;
+        const user =
+            userCredential.user;
 
 
-        console.log("EMAIL LOGIN SUCCESS");
+        console.log(
+            "EMAIL LOGIN SUCCESS"
+        );
 
-        console.log("UID:", user.uid);
+        console.log(
+            "Firebase UID:",
+            user.uid
+        );
 
 
         alert(
@@ -592,35 +659,31 @@ function login() {
     .catch(function(error) {
 
         console.error(
-            "EMAIL LOGIN ERROR:",
             error.code,
             error.message
         );
 
 
-        if (error.code === "auth/user-not-found") {
+        if (
+            error.code ===
+            "auth/invalid-credential"
+        ) {
+
+            alert(
+                "ACCESS DENIED.\n\n" +
+                "Incorrect Gmail or Access Key."
+            );
+
+        }
+
+        else if (
+            error.code ===
+            "auth/user-not-found"
+        ) {
 
             alert(
                 "NO ACCOUNT FOUND.\n\n" +
-                "Please use AWAKEN ACCOUNT first."
-            );
-
-        }
-
-        else if (error.code === "auth/wrong-password") {
-
-            alert(
-                "ACCESS DENIED:\n\n" +
-                "Incorrect password."
-            );
-
-        }
-
-        else if (error.code === "auth/invalid-credential") {
-
-            alert(
-                "LOGIN FAILED:\n\n" +
-                "The email/password credentials are incorrect."
+                "Use AWAKEN ACCOUNT first."
             );
 
         }
@@ -642,22 +705,30 @@ function login() {
 
 /*
 ========================================================
-SIGN UP
+CREATE EMAIL/PASSWORD ACCOUNT
 ========================================================
 */
 
 function signup() {
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
 
     const password =
-        document.getElementById("password").value;
+        document
+        .getElementById("password")
+        .value;
 
 
     if (!email || !password) {
 
-        alert("SYSTEM: Missing credentials");
+        alert(
+            "SYSTEM: Missing credentials"
+        );
 
         return;
 
@@ -675,7 +746,8 @@ function signup() {
     }
 
 
-    auth.createUserWithEmailAndPassword(
+    auth
+    .createUserWithEmailAndPassword(
         email,
         password
     )
@@ -686,9 +758,14 @@ function signup() {
             userCredential.user;
 
 
-        console.log("ACCOUNT CREATED");
+        console.log(
+            "ACCOUNT CREATED"
+        );
 
-        console.log("UID:", user.uid);
+        console.log(
+            "Firebase UID:",
+            user.uid
+        );
 
 
         alert(
@@ -705,7 +782,6 @@ function signup() {
     .catch(function(error) {
 
         console.error(
-            "SIGNUP ERROR:",
             error.code,
             error.message
         );
@@ -718,7 +794,7 @@ function signup() {
 
             alert(
                 "ACCOUNT ALREADY EXISTS.\n\n" +
-                "Please use ENTER SYSTEM to login."
+                "Please use ENTER SYSTEM or CONTINUE WITH GOOGLE."
             );
 
         }
@@ -750,10 +826,6 @@ function googleLogin() {
         new firebase.auth.GoogleAuthProvider();
 
 
-    /*
-    Ask Google for the user's email.
-    */
-
     provider.setCustomParameters({
 
         prompt: "select_account"
@@ -761,7 +833,8 @@ function googleLogin() {
     });
 
 
-    auth.signInWithPopup(provider)
+    auth
+    .signInWithPopup(provider)
 
     .then(function(result) {
 
@@ -773,12 +846,10 @@ function googleLogin() {
             "GOOGLE LOGIN SUCCESS"
         );
 
-
         console.log(
             "Google Email:",
             user.email
         );
-
 
         console.log(
             "Firebase UID:",
@@ -786,17 +857,56 @@ function googleLogin() {
         );
 
 
-        console.log(
-            "Providers:",
-            user.providerData.map(
+        /*
+        Check whether this Google account
+        already has Email/Password.
+        */
+
+        const hasPasswordProvider =
+            user.providerData.some(
                 function(provider) {
 
-                    return provider.providerId;
+                    return provider.providerId ===
+                        "password";
 
                 }
-            )
-        );
+            );
 
+
+        if (!hasPasswordProvider) {
+
+            /*
+            Google-only account.
+
+            Give the user the option to
+            create a password for THIS
+            SAME Firebase account.
+            */
+
+            document
+            .getElementById("normalLogin")
+            .style.display = "none";
+
+
+            document
+            .getElementById("passwordSetup")
+            .style.display = "block";
+
+
+            alert(
+                "GOOGLE ACCESS GRANTED.\n\n" +
+                "Create an Access Key once so you can also login with Gmail + Password."
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+        Google + Password already linked.
+        */
 
         alert(
             "GOOGLE ACCESS GRANTED:\n\n" +
@@ -819,21 +929,7 @@ function googleLogin() {
 
 
         /*
-        ====================================================
-        IMPORTANT CASE
-        ====================================================
-
-        The email already exists with another provider.
-
-        Example:
-
-        Email/Password account
-                    +
-        Google login
-
-        Firebase stops the Google login because the
-        providers have not yet been linked.
-        ====================================================
+        Email/Password account already exists.
         */
 
         if (
@@ -841,47 +937,11 @@ function googleLogin() {
             "auth/account-exists-with-different-credential"
         ) {
 
-            const email =
-                error.customData.email;
-
-
             alert(
-                "ACCOUNT ALREADY EXISTS\n\n" +
+                "THIS GMAIL ALREADY HAS A PASSWORD ACCOUNT.\n\n" +
 
-                email +
-
-                "\n\n" +
-
-                "This account was created using " +
-
-                "Email + Password.\n\n" +
-
-                "Please login using your password first, " +
-
-                "then link Google to this account."
+                "Please login using Gmail + Password first."
             );
-
-
-            /*
-            Store the Google credential temporarily.
-
-            This is only kept in memory for the current
-            page session.
-            */
-
-            window.pendingGoogleCredential =
-                error.credential;
-
-            window.pendingGoogleEmail =
-                email;
-
-
-            /*
-            Show the LINK GOOGLE button.
-            */
-
-            showLinkGoogleButton();
-
 
         }
 
@@ -913,86 +973,76 @@ function googleLogin() {
 
 /*
 ========================================================
-SHOW LINK GOOGLE BUTTON
+SET PASSWORD FOR GOOGLE ACCOUNT
+========================================================
+
+The user is already authenticated with Google.
+
+We create an Email/Password credential and
+link it to the CURRENT Firebase user.
+
+This does NOT create another account.
+
+The UID remains the same.
 ========================================================
 */
 
-function showLinkGoogleButton() {
+function setPassword() {
 
-    if (
-        document.getElementById(
-            "linkGoogleButton"
-        )
-    ) {
+    const newPassword =
+        document
+        .getElementById("newPassword")
+        .value;
+
+
+    const confirmPassword =
+        document
+        .getElementById("confirmPassword")
+        .value;
+
+
+    if (!newPassword || !confirmPassword) {
+
+        alert(
+            "SYSTEM: Enter the Access Key twice."
+        );
 
         return;
 
     }
 
 
-    const button =
-        document.createElement("button");
+    if (newPassword.length < 6) {
+
+        alert(
+            "ACCESS KEY must contain at least 6 characters."
+        );
+
+        return;
+
+    }
 
 
-    button.id =
-        "linkGoogleButton";
+    if (newPassword !== confirmPassword) {
+
+        alert(
+            "ACCESS KEYS DO NOT MATCH."
+        );
+
+        return;
+
+    }
 
 
-    button.className =
-        "btn google";
-
-
-    button.innerText =
-        "LINK GOOGLE ACCOUNT";
-
-
-    button.onclick =
-        linkGoogleAccount;
-
-
-    document
-        .querySelector(".container")
-        .appendChild(button);
-
-}
-
-
-
-/*
-========================================================
-LINK GOOGLE TO EXISTING EMAIL/PASSWORD ACCOUNT
-========================================================
-
-IMPORTANT:
-
-The user must first login using their existing
-Email + Password.
-
-Then this function links Google to that SAME Firebase
-user account.
-
-After linking:
-
-Email/Password ───┐
-                  │
-                  ├── SAME Firebase UID
-                  │
-Google ───────────┘
-
-Purchases remain attached to that UID.
-========================================================
-*/
-
-function linkGoogleAccount() {
-
-    const currentUser =
+    const user =
         auth.currentUser;
 
 
-    if (!currentUser) {
+    if (!user) {
 
         alert(
-            "SYSTEM: Please login with your email and password first."
+            "SESSION EXPIRED.\n\n" +
+            "Please sign in with Google again."
         );
 
         return;
@@ -1000,104 +1050,112 @@ function linkGoogleAccount() {
     }
 
 
-    if (
-        !window.pendingGoogleCredential
-    ) {
+    /*
+    Create Email/Password credential
+    using the SAME email.
+    */
 
-        alert(
-            "No Google authentication request is waiting."
+    const credential =
+        firebase.auth.EmailAuthProvider
+        .credential(
+            user.email,
+            newPassword
         );
 
-        return;
 
-    }
+    /*
+    LINK credential to the EXISTING
+    Google Firebase user.
+    */
+
+    user
+    .linkWithCredential(credential)
+
+    .then(function(result) {
+
+        console.log(
+            "PASSWORD LINKED SUCCESSFULLY"
+        );
+
+        console.log(
+            "Firebase UID:",
+            result.user.uid
+        );
 
 
-    currentUser
-        .linkWithCredential(
-            window.pendingGoogleCredential
-        )
+        console.log(
+            "Providers:",
+            result.user.providerData.map(
+                function(provider) {
 
-        .then(function(result) {
+                    return provider.providerId;
 
-            console.log(
-                "GOOGLE SUCCESSFULLY LINKED"
-            );
+                }
+            )
+        );
 
 
-            console.log(
-                "Firebase UID:",
-                result.user.uid
-            );
+        alert(
+            "ACCOUNT UPDATED SUCCESSFULLY!\n\n" +
 
+            "You can now use either:\n\n" +
+
+            "GOOGLE LOGIN\n" +
+
+            "or\n\n" +
+
+            "GMAIL + PASSWORD\n\n" +
+
+            "Both use the SAME account."
+        );
+
+
+        window.location.href =
+            "home.html";
+
+    })
+
+    .catch(function(error) {
+
+        console.error(
+            "PASSWORD LINK ERROR:",
+            error.code,
+            error.message
+        );
+
+
+        if (
+            error.code ===
+            "auth/provider-already-linked"
+        ) {
 
             alert(
-                "GOOGLE ACCOUNT LINKED SUCCESSFULLY!\n\n" +
-
-                "You can now use either:\n\n" +
-
-                "• Gmail + Password\n" +
-
-                "• Sign in with Google\n\n" +
-
-                "Both will access the SAME account and purchases."
+                "PASSWORD LOGIN IS ALREADY LINKED."
             );
 
+        }
 
-            window.pendingGoogleCredential =
-                null;
+        else if (
+            error.code ===
+            "auth/credential-already-in-use"
+        ) {
 
+            alert(
+                "THIS EMAIL/PASSWORD CREDENTIAL IS ALREADY USED BY ANOTHER ACCOUNT."
+            );
 
-            window.pendingGoogleEmail =
-                null;
+        }
 
+        else {
 
-            window.location.href =
-                "home.html";
-
-        })
-
-        .catch(function(error) {
-
-            console.error(
-                "LINK GOOGLE ERROR:",
-                error.code,
+            alert(
+                "PASSWORD LINK FAILED:\n\n" +
                 error.message
             );
 
+        }
 
-            if (
-                error.code ===
-                "auth/credential-already-in-use"
-            ) {
-
-                alert(
-                    "This Google account is already connected to another Firebase account."
-                );
-
-            }
-
-            else if (
-                error.code ===
-                "auth/provider-already-linked"
-            ) {
-
-                alert(
-                    "Google is already linked to this account."
-                );
-
-            }
-
-            else {
-
-                alert(
-                    "GOOGLE LINK FAILED:\n\n" +
-                    error.message
-                );
-
-            }
-
-        });
+    });
 
 }
 
