@@ -1,12 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 
 <!-- 📱 Mobile -->
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- 🔍 GOOGLE SEARCH OPTIMIZATION -->
+
 <title>ZENON ARCHIVE: Comics | Sci-Fi Comic Universe by K.G.ZENON</title>
 
 <meta name="description"
@@ -17,16 +20,18 @@ content="Read ZENON ARCHIVE, an original futuristic sci-fi comic universe create
 <meta name="author" content="ZENON ARCHIVE">
 
 <!-- 🤖 Google indexing control -->
+
 <meta name="robots" content="index, follow">
 
 <!-- 🌐 Open Graph (Google + social preview) -->
+
 <meta property="og:title" content="ZENON ARCHIVE: Comics">
 <meta property="og:description" content="Enter the ZENON ARCHIVE universe. Login to access futuristic sci-fi comic chapters.">
 <meta property="og:type" content="website">
 
 <!-- 🧠 Theme color (mobile browser UI color) -->
-<meta name="theme-color" content="#05060a">
 
+<meta name="theme-color" content="#05060a">
 
 <style>
 body {
@@ -73,6 +78,7 @@ body::after {
     opacity: 0.7;
     animation: pulseHeat 5s infinite ease-in-out;
 }
+
 @keyframes pulseHeat {
     0% {
         opacity: 0.4;
@@ -111,15 +117,26 @@ body::after {
 
     text-shadow: 0 0 10px rgba(255, 140, 0, 0.945);
     z-index: 3;
-     animation: titlePulse 3s infinite ease-in-out;
+    animation: titlePulse 3s infinite ease-in-out;
 
     opacity: 0.9;
 }
 
 @keyframes titlePulse {
-    0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-    50% { opacity: 1; transform: translateX(-50%) scale(1.03); }
-    100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+    0% {
+        opacity: 0.6;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.03);
+    }
+
+    100% {
+        opacity: 0.6;
+        transform: translateX(-50%) scale(1);
+    }
 }
 
 
@@ -208,6 +225,17 @@ picture::after {
     color: cyan;
 }
 
+/* GOOGLE LOGIN BUTTON */
+.google {
+    background: white;
+    color: #222;
+    border: 1px solid #ccc;
+}
+
+.google:hover {
+    transform: scale(1.05);
+}
+
 input {
     width: 90%;
     padding: 10px;
@@ -244,9 +272,15 @@ picture img {
 </style>
 
 </head>
+
+<!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyCAsCLLdubOu2sa1tcGDWinGZvHcxPS3yM",
@@ -259,14 +293,14 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 </script>
 
-
 <body>
 
-    <div class="site-title">
+<div class="site-title">
     ZENON ARCHIVE:COMICS
 </div>
 
@@ -277,24 +311,40 @@ const db = firebase.firestore();
 </picture>
 
 <!-- LOGO CENTER TOP -->
+
 <div class="logo-center">
     <img src="Logo.webp" class="logo">
 </div>
 
 <!-- LOGIN BOX BOTTOM CENTER -->
+
 <div class="container">
 
+```
+<input type="text" id="email" placeholder="User ID / Gmail">
 
-
-    <input type="text" id="email" placeholder="User ID / Gmail">
 <input type="password" id="password" placeholder="Access Key">
 
-    <button class="btn signin" onclick="login()">ENTER SYSTEM</button>
-    <button class="btn signup" onclick="signup()">AWAKEN ACCOUNT</button>
+<button class="btn signin" onclick="login()">
+    ENTER SYSTEM
+</button>
+
+<button class="btn signup" onclick="signup()">
+    AWAKEN ACCOUNT
+</button>
+
+<!-- GOOGLE LOGIN -->
+<button class="btn google" onclick="googleLogin()">
+    CONTINUE WITH GOOGLE
+</button>
+```
 
 </div>
+
 <script>
+
 function login() {
+
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
@@ -304,16 +354,25 @@ function login() {
     }
 
     auth.signInWithEmailAndPassword(email, password)
+
     .then((userCredential) => {
+
         alert("ENTER SYSTEM: " + userCredential.user.email);
+
         window.location.href = "home.html";
+
     })
+
     .catch((error) => {
+
         alert(error.message);
+
     });
 }
 
+
 function signup() {
+
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
@@ -323,27 +382,71 @@ function signup() {
     }
 
     auth.createUserWithEmailAndPassword(email, password)
+
     .then((userCredential) => {
+
         alert("AWAKEN COMPLETE: " + userCredential.user.email);
+
         window.location.href = "home.html";
+
     })
+
     .catch((error) => {
 
         if (error.code === "auth/email-already-in-use") {
+
             // auto login instead
+
             auth.signInWithEmailAndPassword(email, password)
+
             .then((user) => {
+
                 alert("WELCOME BACK: " + user.user.email);
+
+                window.location.href = "home.html";
+
             })
+
             .catch((err) => {
+
                 alert("LOGIN FAILED: " + err.message);
+
             });
 
         } else {
+
             alert(error.message);
+
         }
+
     });
 }
+
+
+/* GOOGLE LOGIN */
+
+function googleLogin() {
+
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    auth.signInWithPopup(provider)
+
+    .then((result) => {
+
+        alert("GOOGLE ACCESS GRANTED: " + result.user.email);
+
+        window.location.href = "home.html";
+
+    })
+
+    .catch((error) => {
+
+        alert("GOOGLE LOGIN FAILED: " + error.message);
+
+    });
+
+}
+
 </script>
 
 </body>
