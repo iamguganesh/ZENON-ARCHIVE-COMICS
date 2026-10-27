@@ -1,163 +1,163 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ZENON ARCHIVE: Comics | Sci-Fi Comic Universe by K.G.ZENON</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<meta name="description" content="Read ZENON ARCHIVE, an original futuristic sci-fi comic universe by K.G.ZENON. Pick a chapter and start reading.">
+<meta name="theme-color" content="#111111">
+<link rel="preload" as="image" href="comiccover.webp">
 
 <style>
-body{
-    background:#05060a;
-    color:cyan;
-    font-family:monospace;
-    margin:0;
-    padding:30px;
+:root {
+  --ink: #111; --paper: #fffdf2; --red: #ff2e3b; --blue: #1f7bff; --yellow: #ffe600; --green: #19d36b;
+  --head: Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Black", sans-serif;
+  --hand: "Comic Sans MS", "Chalkboard SE", "Segoe Print", "Marker Felt", sans-serif;
 }
-.title{
-    text-align:center;
-    font-size:28px;
-    color:gold;
-    margin-bottom:10px;
-}
+* { box-sizing: border-box; }
+html { background: var(--ink); }
+body { margin: 0; min-height: 100vh; font-family: var(--hand); color: var(--ink); overflow-x: hidden;
+  background: var(--ink); padding: 26px 16px 60px; }
 
-.note{
-    text-align:center;
-    font-size:12px;
-    color:#888;
-    margin-bottom:30px;
-}
+/* Backdrop: halftone corners + speed lines, pure CSS (zero downloads) */
+body::before { content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(circle, var(--red) 28%, transparent 30%) 0 0/10px 10px,
+    radial-gradient(circle, var(--blue) 28%, transparent 30%) 5px 5px/10px 10px;
+  -webkit-mask-image: radial-gradient(120% 70% at 50% 120%, #000, transparent 70%), radial-gradient(70% 40% at 50% -10%, #000, transparent 70%);
+  mask-image: radial-gradient(120% 70% at 50% 120%, #000, transparent 70%), radial-gradient(70% 40% at 50% -10%, #000, transparent 70%);
+  opacity: .55; }
+body::after { content: ""; position: fixed; left: 50%; top: 22%; width: 200vmax; height: 200vmax; margin: -100vmax 0 0 -100vmax;
+  z-index: -1; pointer-events: none; background: repeating-conic-gradient(rgba(255,255,255,.09) 0 2deg, transparent 2deg 8deg);
+  -webkit-mask-image: radial-gradient(circle, transparent 5%, #000 30%, transparent 62%); mask-image: radial-gradient(circle, transparent 5%, #000 30%, transparent 62%);
+  animation: spin 120s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-}
+/* Masthead */
+header { text-align: center; margin: 10px auto 34px; max-width: 760px; }
+.title { margin: 0; font: 400 clamp(44px, 11vw, 100px)/.9 var(--head); letter-spacing: .03em; color: var(--yellow);
+  -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; text-shadow: 5px 5px 0 var(--ink), 9px 9px 0 var(--red);
+  transform: rotate(-2deg); animation: pop .6s cubic-bezier(.2,1.6,.4,1) both; }
+.tag { display: inline-block; margin-top: 14px; padding: 4px 16px; font: 400 clamp(14px, 3vw, 20px) var(--head); letter-spacing: .35em;
+  color: #fff; background: var(--blue); border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); transform: rotate(1.5deg); }
+.note { display: block; width: fit-content; max-width: 100%; margin: 22px auto 0; padding: 8px 14px; font-size: 13px; font-weight: 700;
+  background: var(--yellow); border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); transform: rotate(-.8deg); }
+@keyframes pop { from { opacity: 0; transform: scale(.6) rotate(-8deg); } }
 
-.card{
-    background:#111;
-    padding:20px;
-    border-radius:12px;
-    border:1px solid rgba(0,255,255,.3);
-    text-align:center;
-}
+/* Panels */
+.grid { max-width: 1100px; margin: 0 auto; display: grid; gap: 34px 28px; perspective: 1100px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.panel { position: relative; padding: 14px 14px 18px; text-align: center; background: var(--paper);
+  border: 5px solid var(--ink); border-radius: 4px; box-shadow: 9px 9px 0 var(--ink);
+  background-image: radial-gradient(circle, rgba(31,123,255,.16) 1.4px, transparent 1.8px); background-size: 8px 8px;
+  transform-style: preserve-3d; transform: rotate(var(--tilt, 0deg)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform .15s ease-out, box-shadow .15s; animation: pop .55s cubic-bezier(.2,1.6,.4,1) both; }
+.panel:nth-child(odd)  { --tilt: -1deg; }
+.panel:nth-child(even) { --tilt: 1deg; }
+.panel:nth-child(2) { animation-delay: .08s; } .panel:nth-child(3) { animation-delay: .16s; } .panel:nth-child(4) { animation-delay: .24s; }
+.panel:hover { box-shadow: 13px 13px 0 var(--ink), 13px 13px 0 5px var(--yellow); }
 
-.cover{
-    width:100%;
-    aspect-ratio:2/3;
-    object-fit:cover;
-    background:#222;
-    border-radius:10px;
-    display:block;
-    margin-bottom:12px;
-}
+.badge { position: absolute; z-index: 3; top: -22px; left: -18px; width: 74px; height: 74px; display: grid; place-items: center;
+  font: 400 21px var(--head); letter-spacing: .04em; color: var(--ink); background: var(--yellow); text-align: center; line-height: .9;
+  clip-path: polygon(50% 0, 61% 14%, 79% 8%, 82% 27%, 100% 33%, 90% 50%, 100% 67%, 82% 73%, 79% 92%, 61% 86%, 50% 100%, 39% 86%, 21% 92%, 18% 73%, 0 67%, 10% 50%, 0 33%, 18% 27%, 21% 8%, 39% 14%);
+  filter: drop-shadow(3px 3px 0 var(--ink)); transform: translateZ(50px) rotate(-10deg); }
 
-.chapter-title{
-    color:rgb(244, 208, 7);
-    font-family:'Orbitron', sans-serif;
-    font-size:18px;
-    font-weight:100;
-    margin-bottom:12px;
-}
+.frame { position: relative; margin-bottom: 14px; border: 4px solid var(--ink); background: #222; overflow: hidden; transform: translateZ(25px); }
+.cover { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; }
+.frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: .35;
+  background: radial-gradient(circle, var(--red) 24%, transparent 26%) 0 0/7px 7px; -webkit-mask-image: linear-gradient(to top, #000, transparent 60%); mask-image: linear-gradient(to top, #000, transparent 60%); }
 
-.chapter{
-    font-size:18px;
-    margin-bottom:10px;
-}
+.caption { margin: 0 0 12px; padding: 7px 8px; font: 400 21px/1.1 var(--head); letter-spacing: .04em; background: var(--yellow);
+  border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); transform: translateZ(35px) rotate(-.6deg); }
 
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    margin-top:10px;
-    cursor:pointer;
-}
+.btn { display: block; width: 100%; padding: 11px; cursor: pointer; border: 3px solid var(--ink); border-radius: 4px;
+  font: 400 21px var(--head); letter-spacing: .08em; color: var(--ink); box-shadow: 5px 5px 0 var(--ink);
+  transform: translateZ(40px); transition: transform .1s, box-shadow .1s; }
+.btn:hover { transform: translateZ(40px) translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); }
+.btn:active { transform: translateZ(40px) translate(4px, 4px); box-shadow: 1px 1px 0 var(--ink); }
+.btn:focus-visible { outline: 3px dashed var(--red); outline-offset: 3px; }
+.btn:disabled { cursor: wait; filter: grayscale(.6); }
+.read { background: var(--green); }
+.buy  { background: var(--red); color: #fff; text-shadow: 2px 2px 0 var(--ink); }
 
-.read{
-    background:lime;
-}
+/* Locked chapter */
+.stamp { display: none; position: absolute; z-index: 2; left: 50%; top: 42%; padding: 4px 18px; font: 400 40px var(--head); letter-spacing: .1em;
+  color: var(--red); background: rgba(255,253,242,.92); border: 5px solid var(--red); transform: translate(-50%, -50%) rotate(-14deg); }
+.panel.locked .stamp { display: block; }
+.panel.locked .cover { filter: grayscale(.7) brightness(.7); }
 
-.locked{
-    background:#333;
-    color:#888;
-}
+/* WOW 1: holographic foil sweep across every cover */
+.frame::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,.6) 45%, rgba(255,230,0,.45) 50%, rgba(31,123,255,.5) 56%, transparent 68%) 150% 0 / 260% 100%;
+  animation: sheen 4.5s ease-in-out infinite; }
+.panel:nth-child(2) .frame::before { animation-delay: .6s; } .panel:nth-child(3) .frame::before { animation-delay: 1.2s; } .panel:nth-child(4) .frame::before { animation-delay: 1.8s; }
+.panel:hover .frame::before { animation-duration: 1.4s; }
+@keyframes sheen { 0% { background-position: 150% 0; } 45%, 100% { background-position: -60% 0; } }
 
-.buy{
-    background:#00ff88;
-    color:black;
-    font-weight:bold;
-    transition:0.3s;
-}
+/* WOW 2: comic burst intro, shown once per visit */
+.intro { --burst: polygon(50% 0, 61% 14%, 79% 8%, 82% 27%, 100% 33%, 90% 50%, 100% 67%, 82% 73%, 79% 92%, 61% 86%, 50% 100%, 39% 86%, 21% 92%, 18% 73%, 0 67%, 10% 50%, 0 33%, 18% 27%, 21% 8%, 39% 14%);
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: var(--ink); pointer-events: none; animation: introOut 1.6s forwards; }
+.intro::before { content: ""; position: absolute; inset: 0; margin: auto; width: min(138vmin, 860px); aspect-ratio: 1; background: var(--red);
+  clip-path: var(--burst); animation: slam 1.6s .05s cubic-bezier(.2,1.4,.4,1) forwards; }
+.intro b { width: min(112vmin, 700px); aspect-ratio: 1; display: grid; place-items: center; background: var(--yellow); clip-path: var(--burst);
+  font: 400 clamp(44px, 13vmin, 110px) var(--head); letter-spacing: .04em; color: var(--red); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill;
+  text-shadow: 5px 5px 0 var(--ink); animation: slam 1.6s cubic-bezier(.2,1.4,.4,1) forwards; }
+@keyframes slam { 0% { opacity: 0; transform: scale(.2) rotate(-25deg); } 22% { opacity: 1; transform: scale(1.12) rotate(4deg); } 32% { transform: scale(1) rotate(-2deg); } 78% { opacity: 1; transform: scale(1.03) rotate(-2deg); } 100% { opacity: 0; transform: scale(1.5) rotate(4deg); } }
+@keyframes introOut { 0%, 72% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .intro { display: none; } .frame::before { display: none; } }
 
-.buy:hover{
-    background:#00e67a;
-    transform:scale(1.03);
-}
-
+@media (max-width: 480px) { body { padding: 18px 12px 50px; } .grid { gap: 40px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .panel { transform: none; } }
 </style>
-
 </head>
 
 <body>
+<div class="intro" id="intro" aria-hidden="true"><b>ZENON!</b></div>
+<script>try { if (sessionStorage.getItem("zenonIntro")) document.getElementById("intro").remove(); else sessionStorage.setItem("zenonIntro", "1"); } catch (e) {}</script>
+<header>
+  <h1 class="title">ZENON ARCHIVE</h1>
+  <span class="tag">COMICS</span>
+  <span class="note">Comic visuals are AI-generated for concept and story presentation.</span>
+</header>
 
-<div class="title">ZENON ARCHIVE</div>
+<main class="grid">
 
-<div class="note">
-⚠️ comic visuals are AI-generated for concept/story presentation
-</div>
+  <!-- CHAPTER 1 -->
+  <section class="panel">
+    <div class="badge">CH<br>1</div>
+    <div class="frame"><img src="comiccover.webp" class="cover" width="400" height="600" alt="Chapter 1 cover" decoding="async"><span class="stamp">LOCKED</span></div>
+    <h2 class="caption">Before the Rise</h2>
+    <button class="btn read" onclick="openComic('chapter1.html')">READ NOW</button>
+  </section>
 
-<div class="grid">
+  <!-- CHAPTER 2 (paid) -->
+  <section class="panel locked" id="panel2">
+    <div class="badge">CH<br>2</div>
+    <div class="frame"><img src="comiccover.webp" class="cover" width="400" height="600" alt="Chapter 2 cover" loading="lazy" decoding="async"><span class="stamp">LOCKED</span></div>
+    <h2 class="caption">After Kiraxians Born</h2>
+    <button id="buyBtn2" class="btn buy" onclick="buyChapter2()">BUY ₹30</button>
+    <button id="readBtn2" class="btn read" onclick="openComic('chapter2.html')" style="display:none;">READ NOW</button>
+  </section>
 
-<!-- CHAPTER 1 -->
-<div class="card">
+  <!-- CHAPTER 3 -->
+  <section class="panel">
+    <div class="badge">CH<br>3</div>
+    <div class="frame"><img src="comiccover.webp" class="cover" width="400" height="600" alt="Chapter 3 cover" loading="lazy" decoding="async"><span class="stamp">LOCKED</span></div>
+    <h2 class="caption">The Mysterious Light</h2>
+    <button class="btn read" onclick="openComic('chapter3.html')">READ NOW</button>
+  </section>
 
-    <div class="chapter-title">Before the Rise</div>
+  <!-- CHAPTER 4 -->
+  <section class="panel">
+    <div class="badge">CH<br>4</div>
+    <div class="frame"><img src="comiccover.webp" class="cover" width="400" height="600" alt="Chapter 4 cover" loading="lazy" decoding="async"><span class="stamp">LOCKED</span></div>
+    <h2 class="caption">The Kiraxians</h2>
+    <button class="btn read" disabled style="filter:grayscale(.7);cursor:not-allowed">COMING SOON</button>
+  </section>
 
-    <img src="comiccover.webp" class="cover">
+</main>
 
-    <div class="chapter">Chapter 1</div>
-
-
-    <button class="read" onclick="openComic('chapter1.html')">
-        READ NOW
-    </button>
-
-</div>
-
-<!-- CHAPTER 2 -->
-<div class="card">
-
-<div class="chapter-title">After Kiraxians Born</div>
-    <img src="comiccover.webp" class="cover">
-    <div class="chapter">Chapter 2</div>
-
-    <button id="buyBtn2" class="buy" onclick="buyChapter2()">
-    BUY ₹30
-</button>
-
-    <button id="readBtn2" class="read"
-            onclick="openComic('chapter2.html')"
-            style="display:none;">
-        READ NOW
-    </button>
-</div>
-
-<!-- CHAPTER 3 -->
-<div class="card">
-    <div class="chapter-title">The Mysterious light</div>
-    <img src="comiccover.webp" class="cover">
-    <div class="chapter">Chapter 3</div>
-
-    <button class="read" onclick="openComic('chapter3.html')">
-        READ NOW
-    </button>
-</div>
-
-</div>
-
-<!-- Razorpay still kept for future -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!-- FIREBASE (Razorpay is now loaded only when someone taps BUY) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -171,141 +171,124 @@ const firebaseConfig = {
   appId: "1:168695503958:web:f347fb1b73993e78fd6ff7",
   measurementId: "G-5412M1HM6T"
 };
-
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+/* PASTE YOUR REAL RAZORPAY KEY ID HERE (the public key_id only, never the secret) */
+const RAZORPAY_KEY = "rzp_live_T7rSUWNuRqdAll";
+const BACKEND = "https://zenon-archive-backend.onrender.com";
 </script>
 
-
 <script>
+function openComic(page) { window.location.href = page; }
 
-function openComic(page){
-    window.location.href = page;
+function unlockChapter2() {
+    document.getElementById("buyBtn2").style.display = "none";
+    document.getElementById("readBtn2").style.display = "block";
+    document.getElementById("panel2").classList.remove("locked");
 }
 
-// Check if Chapter 2 is already unlocked
-window.onload = function(){
-
-    auth.onAuthStateChanged(async(user)=>{
-
-        if(!user) return;
-
+/* Check if Chapter 2 is already unlocked */
+auth.onAuthStateChanged(async function (user) {
+    if (!user) return;
+    try {
         const doc = await db.collection("users").doc(user.uid).get();
+        if (doc.exists && doc.data().chapter2) unlockChapter2();
+    } catch (e) { console.error(e); }
+});
 
-        if(doc.exists && doc.data().chapter2){
-
-            document.getElementById("buyBtn2").style.display="none";
-            document.getElementById("readBtn2").style.display="block";
-
-        }
-
+/* Load Razorpay only when needed (saves data for everyone who just reads) */
+function loadRazorpay() {
+    return new Promise(function (resolve, reject) {
+        if (window.Razorpay) return resolve();
+        var s = document.createElement("script");
+        s.src = "https://checkout.razorpay.com/v1/checkout.js";
+        s.onload = resolve; s.onerror = reject;
+        document.head.appendChild(s);
     });
-
 }
 
 async function buyChapter2() {
-
     const user = auth.currentUser;
+    if (!user) { alert("Please login first."); return; }
 
-    if (!user) {
-        alert("Please login first.");
-        return;
-    }
+    const btn = document.getElementById("buyBtn2");
+    if (btn.disabled) return;
+    btn.disabled = true;
+    const idle = function () { btn.disabled = false; };
+
+    try { await loadRazorpay(); }
+    catch (e) { alert("Cannot load the payment window. Check your connection."); idle(); return; }
 
     // Create order from backend
-   let order;
-
-try {
-
-    const response = await fetch(
-        "https://zenon-archive-backend.onrender.com/create-order",
-        {
-            method: "POST"
-        }
-    );
-
-    order = await response.json();
-
-} catch (e) {
-
-    console.error(e);
-    alert("Cannot connect to payment server.");
-    return;
-
-}
-
-if (!order.id) {
-
-    alert("Unable to create payment order.");
-    return;
-
-}
+    let order;
+    try {
+        const response = await fetch(BACKEND + "/create-order", { method: "POST" });
+        order = await response.json();
+    } catch (e) {
+        console.error(e);
+        alert("Cannot connect to payment server.");
+        idle(); return;
+    }
+    if (!order.id) { alert("Unable to create payment order."); idle(); return; }
 
     var options = {
-
-        key: "rzp_live_T7rSUWNuRqdAll",
-
+        key: RAZORPAY_KEY,
         amount: order.amount,
-
         currency: order.currency,
-
         order_id: order.id,
-
         name: "ZENON ARCHIVE",
-
         description: "Unlock Chapter 2",
-
-        handler: async function(response){
-
-            const verify = await fetch("https://zenon-archive-backend.onrender.com/verify-payment",{
-
-                method:"POST",
-
-                headers:{
-                    "Content-Type":"application/json"
-                },
-
-                body:JSON.stringify({
-
-                    razorpay_order_id:response.razorpay_order_id,
-
-                    razorpay_payment_id:response.razorpay_payment_id,
-
-                    razorpay_signature:response.razorpay_signature,
-
-                    uid:user.uid
-
-                })
-
-            });
-
-            const result = await verify.json();
-
-            if(result.success){
-
-                document.getElementById("buyBtn2").style.display="none";
-                document.getElementById("readBtn2").style.display="block";
-
-                window.location.href="chapter2.html";
-
-            }else{
-
-                alert(result.message);
-
+        modal: { ondismiss: idle },
+        handler: async function (response) {
+            try {
+                const verify = await fetch(BACKEND + "/verify-payment", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
+                        uid: user.uid
+                    })
+                });
+                const result = await verify.json();
+                if (result.success) {
+                    unlockChapter2();
+                    window.location.href = "chapter2.html";
+                } else {
+                    alert(result.message);
+                    idle();
+                }
+            } catch (e) {
+                console.error(e);
+                alert("Payment received but verification failed. Please contact support with your payment ID: " + response.razorpay_payment_id);
+                idle();
             }
-
         }
-
     };
-
-    var rzp = new Razorpay(options);
-
-    rzp.open();
-
+    new Razorpay(options).open();
 }
-
 </script>
 
+<script>
+/* 3D tilt on each panel (mouse devices only, about 0.5 KB) */
+(function () {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    document.querySelectorAll(".panel").forEach(function (p) {
+        var queued = false, rx = 0, ry = 0;
+        function apply() { queued = false; p.style.setProperty("--rx", rx + "deg"); p.style.setProperty("--ry", ry + "deg"); }
+        p.addEventListener("pointermove", function (e) {
+            var r = p.getBoundingClientRect();
+            ry = ((e.clientX - r.left) / r.width - .5) * 12;
+            rx = -((e.clientY - r.top) / r.height - .5) * 12;
+            if (!queued) { queued = true; requestAnimationFrame(apply); }
+        });
+        p.addEventListener("pointerleave", function () { rx = ry = 0; apply(); });
+    });
+})();
+</script>
 </body>
 </html>
